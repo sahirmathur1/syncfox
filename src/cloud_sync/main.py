@@ -80,7 +80,7 @@ async def lifespan(app: FastAPI):
         db.close()
 
 
-app = FastAPI(title="cloud-sync", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="Syncfox", version="0.1.0", lifespan=lifespan)
 app.include_router(health.router)
 app.include_router(index.router)
 app.include_router(setup.router)  # /setup wizard

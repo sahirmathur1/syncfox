@@ -115,6 +115,26 @@ def delete_pair(db: sqlite3.Connection, pair_id: str) -> None:
         db.execute("delete from pairs where id = ?", (pair_id,))
 
 
+### -------------- app_settings --------------
+
+
+def get_app_setting(db: sqlite3.Connection, key: str) -> str | None:
+    row = db.execute("select value from app_settings where key = ?", (key,)).fetchone()
+    return row["value"] if row else None
+
+
+def set_app_setting(db: sqlite3.Connection, key: str, value: str) -> None:
+    with db:
+        db.execute(
+            """insert into app_settings (key, value, updated_at)
+               values (?, ?, datetime('now'))
+               on conflict(key) do update set
+                 value = excluded.value,
+                 updated_at = excluded.updated_at""",
+            (key, value),
+        )
+
+
 ### -------------- pair_runs --------------
 
 
