@@ -5,6 +5,15 @@
 ###   2. docker compose up -d
 ###   3. Open http://localhost:8081 (or whatever PUBLIC_BASE_URL points at)
 ###
+### Upgrade:  docker compose pull && docker compose up -d
+###
+### Backup:
+###   docker run --rm -v syncfox_data:/data -v $PWD:/backup alpine \
+###     tar czf /backup/syncfox-$(date +%F).tgz -C /data .
+### Restore:
+###   docker run --rm -v syncfox_data:/data -v $PWD:/backup alpine \
+###     tar xzf /backup/syncfox-YYYY-MM-DD.tgz -C /data
+###
 ### Optional: put a reverse-proxy (Caddy / nginx / Cloudflare-tunnel) in
 ### front for HTTPS + basic auth. See README for an example Caddyfile.
 
@@ -22,7 +31,11 @@ services:
     ports:
       - "${SYNCFOX_BIND:-127.0.0.1}:${SYNCFOX_PORT:-8081}:8080"
     volumes:
-      # Bind mount — SQLite + rclone.conf + per-pair logs all live here.
-      # Back this directory up if you want to back up Syncfox.
-      - ./data:/data
+      # Named volume so Docker manages perms — the container runs as UID
+      # 10001, which doesn't match the host user, so a bind-mounted
+      # ./data would fail with permission errors on first boot.
+      - data:/data
     restart: unless-stopped
+
+volumes:
+  data:
