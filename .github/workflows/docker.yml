@@ -1,17 +1,20 @@
 # Phase 6 (Syncfox) — multi-arch Docker image + Docker Hub auto-publish.
 #
-# On every push to main → publishes `sahirmathur1/syncfox:latest`.
+# On every push to main → publishes `sahirmathur/syncfox:latest`.
 # On every git tag matching v* → publishes the versioned tag too
-# (e.g. `v0.1.0` → `sahirmathur1/syncfox:0.1.0` + `:latest`).
+# (e.g. `v0.1.0` → `sahirmathur/syncfox:0.1.0` + `:latest`).
 #
 # Multi-arch: linux/amd64 + linux/arm64 (Raspberry Pi 4/5 + Apple Silicon).
 #
+# Note: GitHub handle is `sahirmathur1`, Docker Hub handle is `sahirmathur`
+# (no trailing 1) — repo is sahirmathur1/syncfox, image is sahirmathur/syncfox.
+#
 # REQUIRED GitHub repository secrets (Settings → Secrets and variables → Actions):
-#   DOCKERHUB_USERNAME   = sahirmathur1
+#   DOCKERHUB_USERNAME   = sahirmathur
 #   DOCKERHUB_TOKEN      = an access token from
 #                          hub.docker.com/settings/security (NOT your password)
 #
-# First-time Docker Hub setup: the repo `sahirmathur1/syncfox` auto-creates
+# First-time Docker Hub setup: the repo `sahirmathur/syncfox` auto-creates
 # on first push; no manual setup needed beyond the token.
 
 name: Build + publish Docker image
@@ -50,7 +53,7 @@ jobs:
         id: tags
         run: |
           set -euo pipefail
-          IMAGE="${{ secrets.DOCKERHUB_USERNAME || 'sahirmathur1' }}/syncfox"
+          IMAGE="${{ secrets.DOCKERHUB_USERNAME || 'sahirmathur' }}/syncfox"
           TAGS=()
           if [[ "${GITHUB_REF}" == refs/heads/main ]]; then
             TAGS+=("$IMAGE:latest")

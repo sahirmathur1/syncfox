@@ -10,7 +10,7 @@
 
 services:
   app:
-    image: ${SYNCFOX_IMAGE:-sahirmathur1/syncfox:latest}
+    image: ${SYNCFOX_IMAGE:-sahirmathur/syncfox:latest}
     build: .
     container_name: syncfox
     env_file:

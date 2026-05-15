@@ -5,7 +5,7 @@
 Syncfox is a thin operator-friendly web UI on top of [`rclone bisync`](https://rclone.org/bisync/). Connect two cloud accounts (Google Drive, iCloud Drive, Dropbox), pick a folder on each, and Syncfox keeps them in lockstep — change-detection on both sides, rclone bisync as the engine, the UI tells you when an iCloud trust token is about to expire so it doesn't fail at 3 AM.
 
 - **Web:** [syncfox.cloud](https://syncfox.cloud)
-- **Image:** [`sahirmathur1/syncfox`](https://hub.docker.com/r/sahirmathur1/syncfox)
+- **Image:** [`sahirmathur/syncfox`](https://hub.docker.com/r/sahirmathur/syncfox)
 - **License:** MIT
 
 ---
