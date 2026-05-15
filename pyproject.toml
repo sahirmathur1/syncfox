@@ -1,0 +1,51 @@
+[project]
+name = "syncfox"
+version = "0.1.0"
+description = "Multi-cloud bidirectional sync hub with a web UI — Google Drive, iCloud Drive, Dropbox, anything rclone supports. Self-hosted."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "sahirmathur1" }]
+
+dependencies = [
+    # Phase 4 (Syncfox) — Fernet (cryptography pkg) for opt-in
+    # application-level encryption of credential blobs in rclone_remotes
+    # when SYNCFOX_MASTER_PASSWORD is set. Picked over SQLCipher because
+    # cryptography ships pure-arch wheels for linux/{amd64,arm64} via
+    # cffi+openssl — keeps the multi-arch image simple.
+    "cryptography>=42,<46",
+    "fastapi>=0.110,<1",
+    "uvicorn[standard]>=0.30,<1",
+    "pydantic>=2.7,<3",
+    "pydantic-settings>=2.4,<3",
+    "httpx>=0.27,<1",
+    "structlog>=24,<26",
+    "apscheduler>=3.10,<4",
+    "google-auth>=2.30,<3",
+    "google-auth-oauthlib>=1.2,<2",
+    "python-multipart>=0.0.20,<1",
+    "pexpect>=4.9,<5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<9",
+    "pytest-asyncio>=0.24,<1",
+    "ruff>=0.7,<1",
+    "respx>=0.21,<1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cloud_sync"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>cloud-sync · add Google account</title>
+<style>:root{--bg:#0e0e10;--panel:#17171a;--panel-2:#1f1f24;--line:#2a2a30;--fg:#e5e5e7;--muted:#8a8a93;--accent:#3aa757}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}header{padding:12px 20px;border-bottom:1px solid var(--line);background:var(--panel);display:flex;align-items:center;gap:18px}header a{color:var(--fg);text-decoration:none}header h1{font-size:14px;margin:0 18px 0 0}header nav{display:flex;gap:14px;font-size:13px;color:var(--muted)}main{padding:20px;max-width:720px;margin:0 auto}.panel{background:var(--panel);padding:18px;border-radius:6px;margin-bottom:18px}h2{margin:0 0 12px;font-size:16px}ol li{margin:6px 0}code{background:var(--panel-2);padding:1px 5px;border-radius:3px;font-family:ui-monospace,monospace;font-size:12px}input,select{background:var(--panel-2);color:var(--fg);border:1px solid var(--line);padding:8px 10px;border-radius:4px;font:inherit;width:100%}label{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px}button{background:var(--accent);color:#0e0e10;border:0;padding:8px 14px;border-radius:4px;font:inherit;font-weight:600;cursor:pointer;margin-top:14px}.muted{color:var(--muted)}a{color:var(--accent)}</style>
+</head><body>
+<header><h1>cloud-sync</h1><nav><a href="/pairs">Pairs</a><a href="/remotes">Accounts</a></nav></header>
+<main>
+<h2>Add Google Drive account (service account)</h2>
+
+<div class="panel">
+  <strong>Get the service-account JSON key</strong>
+  <ol>
+    <li>Open <a href="https://console.cloud.google.com/iam-admin/serviceaccounts?project=pulseyeg-tembo" target="_blank">IAM &amp; Admin → Service Accounts</a> in your <code>pulseyeg-tembo</code> project.</li>
+    <li>Either pick an existing SA or click <strong>+ CREATE SERVICE ACCOUNT</strong> (name <code>cloud-sync-sa</code>, no project roles needed).</li>
+    <li>Click into the SA → <strong>KEYS</strong> tab → <strong>ADD KEY</strong> → <strong>Create new key</strong> → <strong>JSON</strong> → <strong>CREATE</strong>. A <code>.json</code> file downloads.</li>
+    <li>Copy the SA's email — looks like <code>cloud-sync-sa@pulseyeg-tembo.iam.gserviceaccount.com</code>.</li>
+    <li>Open Google Drive (or your Workspace shared drive). Right-click each folder you want to sync → <strong>Share</strong> → enter the SA email above → <strong>Editor</strong> → Send. <em>The SA can only see folders you've shared with it.</em></li>
+    <li>Upload the JSON file below. Done.</li>
+  </ol>
+  <p class="muted">The JSON key never leaves Dodoma after upload — stored age-encrypted in the cloud-sync database; rclone reads it from <code>/data/credentials/&lt;remote&gt;.json</code> (mode 0600). Revoke any time at the same Cloud Console page.</p>
+</div>
+
+<div class="panel">
+  <form method="post" action="/remotes/connect/google" enctype="multipart/form-data">
+    <label>Service-account JSON key file</label>
+    <input type="file" name="key_file" accept="application/json,.json" required>
+
+    <label>Optional name suffix (helps if you'll connect multiple SAs)</label>
+    <input type="text" name="name_hint" placeholder="e.g. personal, pulseyeg" autocomplete="off">
+
+    <label>Optional Workspace shared-drive ID (only if pointing at a Shared Drive)</label>
+    <input type="text" name="team_drive_id" placeholder="0AIZl3kuty9eXUk9PVA" autocomplete="off">
+    <p class="muted" style="font-size:11px">Leave blank for personal Drive folders. Find it in the URL of the shared drive: <code>drive.google.com/drive/folders/&lt;id&gt;</code>.</p>
+
+    <button type="submit">Test connection &amp; save</button>
+  </form>
+</div>
+</main></body></html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>cloud-sync</title>
+<style>
+  :root {
+    --bg: #0e0e10; --panel: #17171a; --panel-2: #1f1f24; --line: #2a2a30;
+    --fg: #e5e5e7; --muted: #8a8a93; --accent: #3aa757;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:0; min-height:100vh; background:var(--bg); color:var(--fg);
+         font: 14px/1.45 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  header { padding:14px 20px; border-bottom:1px solid var(--line); background:var(--panel);
+           display:flex; justify-content:space-between; align-items:center; }
+  header h1 { margin:0; font-size:14px; font-weight:600; }
+  .meta { color:var(--muted); font-size:12px; }
+  main { padding:24px; max-width:1100px; margin:0 auto; }
+  .placeholder { background:var(--panel); border:1px dashed var(--line); border-radius:8px;
+                 padding:24px; color:var(--muted); }
+  .placeholder h2 { margin:0 0 6px; color:var(--fg); font-size:15px; }
+  .placeholder p { margin:6px 0; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:12px; background:var(--panel-2);
+          color:var(--muted); font-size:11px; margin-right:6px; }
+  code { font-family: ui-monospace, monospace; background:var(--panel-2); padding:1px 5px;
+         border-radius:3px; font-size:12px; color:var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>cloud-sync</h1>
+    <div class="meta" id="meta">…</div>
+  </div>
+  <div class="meta"><span class="pill">phase 1 skeleton</span></div>
+</header>
+<main>
+  <div class="placeholder">
+    <h2>Pairs</h2>
+    <p>No pairs yet. The skeleton is up; OAuth flows + sync engine land in Phase 2.</p>
+    <p>Phase 1 verifies: container starts, <code>/healthz</code> passes, SQLite is initialised, rclone binary is invokable, basic-auth gate works through whatever reverse-proxy you've placed in front.</p>
+  </div>
+</main>
+<script>
+fetch('/readyz').then(r => r.json()).then(j => {
+  const meta = document.getElementById('meta');
+  meta.textContent = `env=${j.env || '(unknown)'} · ${j.rclone} · ${j.pairs} pairs · ${j.remotes} remotes`;
+}).catch(e => {
+  document.getElementById('meta').textContent = 'readyz: ' + e;
+});
+</script>
+</body>
+</html>

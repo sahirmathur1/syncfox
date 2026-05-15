@@ -1,0 +1,28 @@
+### Syncfox — single container. Self-hosted multi-cloud sync hub.
+###
+### Quickstart for a new operator:
+###   1. cp .env.example .env   &&  edit (only PUBLIC_BASE_URL is required)
+###   2. docker compose up -d
+###   3. Open http://localhost:8081 (or whatever PUBLIC_BASE_URL points at)
+###
+### Optional: put a reverse-proxy (Caddy / nginx / Cloudflare-tunnel) in
+### front for HTTPS + basic auth. See README for an example Caddyfile.
+
+services:
+  app:
+    image: ${SYNCFOX_IMAGE:-sahirmathur1/syncfox:latest}
+    build: .
+    container_name: syncfox
+    env_file:
+      - .env
+    environment:
+      ENV: ${ENV:-local}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DATA_DIR: /data
+    ports:
+      - "${SYNCFOX_BIND:-127.0.0.1}:${SYNCFOX_PORT:-8081}:8080"
+    volumes:
+      # Bind mount — SQLite + rclone.conf + per-pair logs all live here.
+      # Back this directory up if you want to back up Syncfox.
+      - ./data:/data
+    restart: unless-stopped

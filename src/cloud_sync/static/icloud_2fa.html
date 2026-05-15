@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>cloud-sync · iCloud 2FA</title>
+<style>:root{--bg:#0e0e10;--panel:#17171a;--panel-2:#1f1f24;--line:#2a2a30;--fg:#e5e5e7;--muted:#8a8a93;--accent:#3aa757}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}header{padding:12px 20px;border-bottom:1px solid var(--line);background:var(--panel);display:flex;align-items:center;gap:18px}header a{color:var(--fg);text-decoration:none}header h1{font-size:14px;margin:0 18px 0 0}header nav{display:flex;gap:14px;font-size:13px;color:var(--muted)}main{padding:20px;max-width:560px;margin:0 auto}.panel{background:var(--panel);padding:24px;border-radius:6px}h2{margin:0 0 16px;font-size:16px}input{background:var(--panel-2);color:var(--fg);border:1px solid var(--line);padding:14px 16px;border-radius:4px;font:18px ui-monospace,monospace;width:100%;letter-spacing:6px;text-align:center}label{display:block;font-size:13px;color:var(--muted);margin:12px 0 6px}button{background:var(--accent);color:#0e0e10;border:0;padding:10px 18px;border-radius:4px;font:inherit;font-weight:600;cursor:pointer;margin-top:18px;width:100%}.muted{color:var(--muted)}a{color:var(--accent)}</style>
+</head><body>
+<header><h1>cloud-sync</h1><nav><a href="/pairs">Pairs</a><a href="/remotes">Accounts</a></nav></header>
+<main>
+<h2>Enter the verification code</h2>
+<div class="panel">
+  <p class="muted">Apple just pushed a <strong>6-digit code</strong> to your trusted devices (iPhone, Mac, etc.). Enter it below to finish connecting.</p>
+  <form method="post" action="/remotes/connect/icloud/2fa">
+    <input type="hidden" name="sid" value="{{SID}}">
+    <label>Verification code</label>
+    <input type="text" name="code" required pattern="[0-9 -]{6,9}" inputmode="numeric" autofocus maxlength="9" placeholder="123456">
+    <button type="submit">Verify &amp; finish</button>
+  </form>
+  <p class="muted" style="font-size:12px;margin-top:18px">Code only valid for ~5 minutes. If it expires, restart from <a href="/remotes/connect/icloud">/remotes/connect/icloud</a>.</p>
+</div>
+</main></body></html>

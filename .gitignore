@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+.env
+.coverage
+dist/
+build/
+*.egg-info/
+uv.lock
+data/
+
+# Operator-local docker-compose overrides (e.g. attach to a reverse-proxy
+# network that exists only on the operator's host). Auto-loaded by
+# docker compose when present. Never commit.
+docker-compose.override.yml

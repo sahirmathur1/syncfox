@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Syncfox — self-hosted multi-cloud sync hub</title>
+  <meta name="description" content="Self-hosted bidirectional sync between Google Drive, iCloud Drive, and Dropbox. One Docker container, rclone bisync inside, a friendly operator UI on top. MIT.">
+  <meta property="og:title" content="Syncfox">
+  <meta property="og:description" content="Self-hosted multi-cloud bidirectional sync hub. rclone bisync + a friendly operator UI.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://syncfox.cloud">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E%F0%9F%A6%8A%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #0f1115;
+      --fg: #e8eaee;
+      --muted: #8a93a6;
+      --accent: #ff6b3d;
+      --accent-soft: #ff8a64;
+      --card: #181b22;
+      --border: #262a33;
+      --code-bg: #11141a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 64px 24px 96px; }
+    h1 { font-size: 48px; line-height: 1.1; margin: 0 0 8px; letter-spacing: -0.02em; }
+    h1 .accent { color: var(--accent); }
+    .tagline { font-size: 20px; color: var(--muted); margin: 0 0 32px; }
+    h2 { font-size: 22px; letter-spacing: -0.01em; margin: 48px 0 12px; }
+    p { margin: 0 0 16px; }
+    a { color: var(--accent-soft); text-decoration: none; border-bottom: 1px dotted var(--accent-soft); }
+    a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+    code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.55;
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    }
+    pre code { background: none; padding: 0; }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .cta {
+      display: inline-block;
+      padding: 12px 20px;
+      background: var(--accent);
+      color: #0f1115;
+      font-weight: 600;
+      border-radius: 8px;
+      border: none;
+    }
+    .cta:hover { background: var(--accent-soft); color: #0f1115; }
+    .cta-secondary {
+      display: inline-block;
+      padding: 12px 20px;
+      background: transparent;
+      color: var(--fg);
+      font-weight: 500;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .cta-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 24px 0 8px;
+    }
+    .feature {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .feature strong { display: block; margin-bottom: 4px; }
+    .feature span { font-size: 14px; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0 24px; font-size: 14px; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .badges { margin: 8px 0 0; }
+    .badges img { vertical-align: middle; margin-right: 8px; }
+    footer {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--muted); border-bottom-style: solid; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Sync<span class="accent">fox</span></h1>
+    <p class="tagline">Self-hosted multi-cloud bidirectional sync hub.<br>rclone bisync + a friendly operator UI.</p>
+
+    <div class="badges">
+      <a href="https://hub.docker.com/r/sahirmathur1/syncfox"><img alt="Docker pulls" src="https://img.shields.io/docker/pulls/sahirmathur1/syncfox?style=flat-square&color=ff6b3d"></a>
+      <a href="https://github.com/sahirmathur1/syncfox/blob/main/LICENSE"><img alt="MIT licensed" src="https://img.shields.io/badge/license-MIT-ff6b3d?style=flat-square"></a>
+      <a href="https://github.com/sahirmathur1/syncfox"><img alt="GitHub stars" src="https://img.shields.io/github/stars/sahirmathur1/syncfox?style=flat-square&color=ff6b3d"></a>
+    </div>
+
+    <div class="cta-row">
+      <a class="cta" href="#quickstart">Quickstart →</a>
+      <a class="cta-secondary" href="https://github.com/sahirmathur1/syncfox">GitHub</a>
+      <a class="cta-secondary" href="https://hub.docker.com/r/sahirmathur1/syncfox">Docker Hub</a>
+    </div>
+
+    <h2>What it does</h2>
+    <p>Connect two cloud accounts (Google Drive, iCloud Drive, Dropbox), pick a folder on each, and Syncfox keeps them in lockstep. Change-detection on both sides, <code>rclone bisync</code> as the engine, and a UI that warns you 25 days before iCloud's trust token dies — so syncs don't break at 3 AM.</p>
+
+    <h2>Why</h2>
+    <p><code>rclone bisync</code> is excellent and miserable to operate. You have to write the right config stanza per provider, redo iCloud's 2FA dance every ~30 days, script polling so changes propagate in seconds, and not lose credentials when you bounce the host. Syncfox is the operator UI that handles those four things. The actual sync is still rclone — fork it, replace it, audit it.</p>
+
+    <h2>Features</h2>
+    <div class="features">
+      <div class="feature"><strong>3 providers v1</strong><span>Google Drive (OAuth + service-account), iCloud Drive (Apple ID + 2FA), Dropbox (PKCE OAuth).</span></div>
+      <div class="feature"><strong>Per-pair watchers</strong><span>Drive changes.list watermark + iCloud root-folder fingerprint. ~30s end-to-end propagation.</span></div>
+      <div class="feature"><strong>iCloud expiry surface</strong><span>Green/orange/red badge per remote. One-click re-auth. Optional daily Discord nudge ≤25d.</span></div>
+      <div class="feature"><strong>Onboarding wizard</strong><span>/setup walks first-run users through provider-1 → provider-2 → first pair, then steps aside.</span></div>
+      <div class="feature"><strong>Opt-in encryption</strong><span>Set SYNCFOX_MASTER_PASSWORD → Fernet-encrypted creds at rest (PBKDF2-SHA256, 200k).</span></div>
+      <div class="feature"><strong>Multi-arch image</strong><span>linux/amd64 + linux/arm64. Pi 4/5, Apple Silicon, x86 server — all the same image.</span></div>
+      <div class="feature"><strong>No telemetry</strong><span>No phone-home, no signup, no analytics. Your container, your data, your network.</span></div>
+      <div class="feature"><strong>MIT licensed</strong><span>Fork it, replace it, audit it. No paid tier coming. No license-key gate.</span></div>
+    </div>
+
+    <h2 id="quickstart">Quickstart</h2>
+    <pre><code>mkdir syncfox &amp;&amp; cd syncfox
+curl -O https://raw.githubusercontent.com/sahirmathur1/syncfox/main/docker-compose.yml
+curl -o .env https://raw.githubusercontent.com/sahirmathur1/syncfox/main/.env.example
+# edit .env — only PUBLIC_BASE_URL is required for local-only
+docker compose up -d
+open http://localhost:8081</code></pre>
+    <p>The container initialises SQLite, starts the web UI on port 8081, and redirects to <code>/setup</code> until you've connected two accounts and made one pair.</p>
+
+    <h2>Provider matrix</h2>
+    <table>
+      <thead><tr><th>Provider</th><th>Auth</th><th>Token life</th><th>Re-auth?</th></tr></thead>
+      <tbody>
+        <tr><td>Google Drive</td><td>OAuth or service-account JSON</td><td>refresh tokens don't expire</td><td>rare (only on revoke)</td></tr>
+        <tr><td>iCloud Drive</td><td>Apple ID + 2FA</td><td>≈30 days</td><td>yes — UI badge + 1-click button</td></tr>
+        <tr><td>Dropbox</td><td>PKCE OAuth (no server secret)</td><td>refresh tokens don't expire</td><td>rare (only on revoke)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Stack</h2>
+    <p>Python 3.12 / FastAPI / uvicorn / SQLite (WAL) / <code>rclone bisync</code> / <code>cryptography</code> for opt-in Fernet encryption. Server-rendered HTML, no JS framework, no build step. Tests under <code>tests/unit/</code>, run <code>uv run pytest -q</code>.</p>
+
+    <h2>Get involved</h2>
+    <p>Bug reports + small focused PRs welcome — see <a href="https://github.com/sahirmathur1/syncfox/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> for the (best-effort, no-SLA, side-project) triage policy. If something's urgent for you and not for me, fork — that's what MIT is for.</p>
+  </main>
+  <footer>
+    <p>Syncfox — MIT — built by <a href="https://github.com/sahirmathur1">@sahirmathur1</a></p>
+  </footer>
+</body>
+</html>
